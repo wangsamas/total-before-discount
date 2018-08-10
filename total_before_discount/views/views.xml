@@ -1,0 +1,46 @@
+<odoo>
+  <data>
+    <record id="view_order_form_total_without_discount" model="ir.ui.view">
+        <field name="name">sale.order.total.without.discount</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale_discount_total.discount_sale_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='amount_untaxed']" position="replace">
+                <field name="amount_untaxed_without_discount" widget="monetary" groups="sale.group_show_price_subtotal"/>
+            </xpath>
+            <xpath expr="//field[@name='amount_tax']" position="before">
+                <field name="amount_untaxed" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_order_form_without_discount" model="ir.ui.view">
+        <field name="name">sale.order.subtotal.without.discount</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree/field[@name='price_subtotal']" position="replace">
+                <field name="price_subtotal_without_disc" widget="monetary" groups="sale.group_show_price_subtotal"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="invoice_form_without_discount" model="ir.ui.view">
+        <field name="name">account.invoice.form.po.reference</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree/field[@name='price_subtotal']" position="replace">
+                <field name="price_subtotal_without_disc"/>
+            </xpath>
+            <xpath expr="//field[@name='amount_untaxed']" position="replace">
+                <field name="amount_untaxed_without_discount"/>
+            </xpath>
+            <xpath expr="//field[@name='amount_tax']" position="before">
+                <field name="amount_untaxed"/>
+            </xpath>
+        </field>
+    </record>
+
+  </data>
+</odoo>

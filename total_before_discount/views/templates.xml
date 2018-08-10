@@ -1,0 +1,59 @@
+<odoo>
+    
+    <template id="sale_order_ref" inherit_id="sale.report_saleorder_document">     
+        <xpath expr="//span[@t-field='l.price_subtotal']" position="replace">
+            <span t-field="l.price_subtotal_without_disc" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
+        </xpath>        
+        <xpath expr="//tr[hasclass('border-black')]" position="replace">
+                            <tr class="border-black" style="border-bottom:1px solid #dddddd;">
+                                <td><strong>Subtotal</strong></td>
+                                <td class="text-right">
+                                    <span t-field="doc.amount_untaxed_without_discount"
+                                        t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}'/>
+                                </td>
+                            </tr>
+        </xpath>        
+        
+        <xpath expr="//t[@t-foreach='doc._get_tax_amount_by_group()']" position="before">
+                            <tr class="border-black" style="border-bottom:1px solid #dddddd;">
+                                <td><strong>Discounted Subtotal</strong></td>
+                                <td class="text-right">
+                                    <span t-field="doc.amount_untaxed"
+                                        t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}'/>
+                                </td>
+                            </tr>
+        </xpath>        
+        
+        
+    </template>
+
+    <template id="invoice_ref" inherit_id="account.report_invoice_document">     
+        <xpath expr="//span[@t-field='l.price_subtotal']" position="replace">
+                                                <span t-field="l.price_subtotal_without_disc"
+                                        t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+        </xpath>     
+
+        <xpath expr="//tr[hasclass('border-black')]" position="replace">
+                                    <tr class="border-black" style="border-bottom:1px solid #dddddd;">
+                                        <td><strong>Subtotal</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.amount_untaxed_without_discount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                        </td>
+                                    </tr>
+        </xpath>        
+
+    </template>
+        
+    <template id="invoice_ref_total_after_discount" inherit_id="sale_discount_total.report_invoice_customized">     
+        <xpath expr="//tr" position="after">
+                                    <tr class="border-black" style="border-bottom:1px solid #dddddd;">
+                                        <td><strong>Discounted Subtotal</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.amount_untaxed" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                        </td>
+                                    </tr>
+        </xpath>        
+                
+    </template>
+
+</odoo>
