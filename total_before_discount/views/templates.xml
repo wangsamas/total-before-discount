@@ -33,27 +33,18 @@
                                         t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
         </xpath>     
 
-        <xpath expr="//tr[hasclass('border-black')]" position="replace">
-                                    <tr class="border-black" style="border-bottom:1px solid #dddddd;">
-                                        <td><strong>Subtotal</strong></td>
-                                        <td class="text-right">
+        <xpath expr="//span[@t-field='o.amount_untaxed']" position="replace">
                                             <span t-field="o.amount_untaxed_without_discount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
-                                        </td>
-                                    </tr>
         </xpath>        
 
-    </template>
-        
-    <template id="invoice_ref_total_after_discount" inherit_id="sale_discount_total.report_invoice_customized">     
-        <xpath expr="//tr" position="after">
+        <xpath expr="//t[@t-foreach='o._get_tax_amount_by_group()']" position="before">
                                     <tr class="border-black" style="border-bottom:1px solid #dddddd;">
                                         <td><strong>Discounted Subtotal</strong></td>
                                         <td class="text-right">
                                             <span t-field="o.amount_untaxed" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
                                         </td>
                                     </tr>
-        </xpath>        
-                
+        </xpath>                       
     </template>
-
+    
 </odoo>
